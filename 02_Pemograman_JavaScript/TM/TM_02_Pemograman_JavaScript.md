@@ -1,7 +1,9 @@
 # Tugas Mandiri 02: Pemrograman JavaScript
 
 Nama : Abidah F
+
 Kelas : SE08-01
+
 NIM : 103122400004
 
 **Soal**
