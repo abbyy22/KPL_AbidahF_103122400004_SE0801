@@ -1,4 +1,11 @@
 # Tugas Pendahuluan 03: GUI DENGAN HTML DAN CSS
+
+Nama : Abidah F
+
+Kelas : SE08-01
+
+NIM : 103122400004
+
 **Soal**
 
 Buatlah tata letak laman yang kamu buat berada di tengah seperti di bawah ini, dan juga ubah font-nya dengan Inconsolata dari Google Fonts.
