@@ -1,26 +1,49 @@
-const editorElement = document.getElementById("editor-kecil");
-const charCountElement = document.getElementById("hf");
-const upperCountElement = document.getElementById("hb");
-const lowerCountElement = document.getElementById("hk");
+// DOM Document Object Model
 
-editorElement.addEventListener("input", (event) => {
-    const text = event.target.value;
-    const textLength = text.length;
+const elemenEditor = document.getElementById("editor-kecil");
 
-    charCountElement.textContent = textLength;
+const elemenHf = document.getElementById("hf");
+const elemenHb = document.getElementById("hb");
+const elemenHk = document.getElementById("hk");
 
-    let upper = 0;
-    let lower = 0;
 
-    for (let char of text) {
-        if (char >= 'A' && char <= 'Z') {
-            upper++;
-        } else if (char >= 'a' && char <= 'z') {
-            lower++;
+function hitungHuruf(event) {
+    // const inputIsi = elemenEditor.value.length;
+    const inputIsi = event.target.value;
+
+    // ['K', 'a', 't'. 'a', '-', ...]
+    const chr = inputIsi.split('');
+
+    let jumlahHurufSejati = 0;
+    let jumlahHurufBesar = 0;
+    let jumlahHurufKecil = 0;
+
+    const spasi = /\s+/;
+    const besar = /[A-Z]/;
+    const kecil = /[a-z]/;
+
+    chr.forEach(karakter => {
+        if (spasi.test(karakter)) {
+            return;
         }
-    }
 
-    upperCountElement.textContent = upper;
-    lowerCountElement.textContent = lower;
+        if (besar.test(karakter)) {
+            jumlahHurufBesar = jumlahHurufBesar + 1
+        }
 
-});
+        if (kecil.test(karakter)) {
+            jumlahHurufKecil = jumlahHurufKecil + 1;
+        }
+
+
+        jumlahHurufSejati = jumlahHurufSejati + 1;
+    });
+
+    elemenHf.textContent = jumlahHurufSejati;
+    elemenHb.textContent = jumlahHurufBesar;
+    elemenHk.textContent = jumlahHurufKecil;
+
+
+}
+
+elemenEditor.addEventListener("input", hitungHuruf);
