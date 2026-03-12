@@ -43,7 +43,6 @@ function hitungHuruf(event) {
     elemenHb.textContent = jumlahHurufBesar;
     elemenHk.textContent = jumlahHurufKecil;
 
-
 }
 
 elemenEditor.addEventListener("input", hitungHuruf);
