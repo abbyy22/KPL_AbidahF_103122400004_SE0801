@@ -46,3 +46,13 @@ function hitungHuruf(event) {
 }
 
 elemenEditor.addEventListener("input", hitungHuruf);
+
+function kapital() {
+    elemenEditor.value = elemenEditor.value.toUpperCase();
+    hitungHuruf({ target: elemenEditor });
+}
+
+function kecil() {
+    elemenEditor.value = elemenEditor.value.toLowerCase();
+    hitungHuruf({ target: elemenEditor });
+}
