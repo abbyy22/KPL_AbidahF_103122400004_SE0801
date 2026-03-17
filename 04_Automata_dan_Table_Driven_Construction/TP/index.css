@@ -1,0 +1,66 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+}
+
+
+.kotak-input {
+    display: block;
+    resize: none;
+    margin: auto;
+}
+
+div {
+    text-align: center;
+}
+
+
+p > span {
+    color: coral;
+    font-weight: bold;
+}
+
+span {
+    color: rgb(0, 255, 89);
+}
+
+#hf {
+    color: blue;
+}
+
+button {
+    display: inline;
+}
+
+@media screen and (min-width: 768px) {
+h1 {
+text-align: center;
+}
+
+p {
+text-align: center;
+}
+
+/* DARK MODE */
+.dark-mode {
+  background: #171b25;
+  color: #ebecf7;
+}
+
+/* EDITOR DARK MODE */
+.dark-mode #editor-kecil {
+  background: #2e3443;
+  color: #ebecf7;
+}
+
+/* TOMBOL DARK MODE */
+.dark-mode button {
+  background: #29ddcc;
+}
+
+/* HAPUS BORDER TOMBOL */
+button {
+  border: none;
+}
+
+}
