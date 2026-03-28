@@ -1,19 +1,20 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    text-align: center;
 }
 
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 20px;
+    text-align: left;
+}
 
 .kotak-input {
     display: block;
     resize: none;
     margin: auto;
+    width: 100%;
 }
-
-div {
-    text-align: center;
-}
-
 
 p > span {
     color: coral;
@@ -33,34 +34,48 @@ button {
 }
 
 @media screen and (min-width: 768px) {
-h1 {
-text-align: center;
+    .container {
+        max-width: 800px;
+    }
 }
 
-p {
-text-align: center;
-}
 
 /* DARK MODE */
 .dark-mode {
-  background: #171b25;
-  color: #ebecf7;
+    background: #171b25;
+    color: #ebecf7;
 }
 
 /* EDITOR DARK MODE */
 .dark-mode #editor-kecil {
-  background: #2e3443;
-  color: #ebecf7;
+    background: #2e3443;
+    color: #ebecf7;
 }
 
 /* TOMBOL DARK MODE */
 .dark-mode button {
-  background: #29ddcc;
+    background: #29ddcc;
 }
 
 /* HAPUS BORDER TOMBOL */
 button {
-  border: none;
+    border: none;
 }
 
+/* MODE SEPHIAAAAAA*/
+.sephia-mode {
+    background: #f4ecd8;
+    color: #5b4636;
+}
+
+/* EDITOR SEPHIA */
+.sephia-mode #editor-kecil {
+    background: white;
+    color: #5b4636;
+}
+
+/* TOMBOL SEPHIA */
+.sephia-mode button {
+    background: #29ddcc;
+    color: #f4ecd8;
 }

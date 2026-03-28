@@ -61,20 +61,36 @@ function kecil() {
 
 const buttonLightElement = document.getElementById("tombol-terang");
 const buttonDarkElement = document.getElementById("tombol-gelap");
+const buttonSephiaElement = document.getElementById("tombol-sephia");
 
+class ModeState {
+    #state;
 
+    constructor() {
+        this.#state = localStorage.getItem("theme") || "light";
+        this.apply(this.#state);
+    }
 
-// load preference
-if (localStorage.getItem("theme") === "dark") {
-    document.documentElement.classList.add("dark-mode");
+    set state(newState) {
+        if (newState === this.#state) return;
+        this.#state = newState;
+        this.apply(newState);
+        localStorage.setItem("theme", newState);
+    }
+
+    apply(state) {
+        document.documentElement.classList.remove("dark-mode", "sephia-mode");
+
+        if (state === "dark") {
+            document.documentElement.classList.add("dark-mode");
+        } else if (state === "sephia") {
+            document.documentElement.classList.add("sephia-mode");
+        }
+    }
 }
 
-buttonDarkElement.addEventListener("click", () => {
-    document.documentElement.classList.add("dark-mode");
-    localStorage.setItem("theme", "dark");
-});
+const mode = new ModeState();
 
-buttonLightElement.addEventListener("click", () => {
-    document.documentElement.classList.remove("dark-mode");
-    localStorage.setItem("theme", "light");
-});
+buttonDarkElement.addEventListener("click", () => { mode.state = "dark"; });
+buttonLightElement.addEventListener("click", () => { mode.state = "light"; });
+buttonSephiaElement.addEventListener("click", () => { mode.state = "sephia"; }); // tambah ini
