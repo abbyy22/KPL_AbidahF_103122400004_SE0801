@@ -1,0 +1,12 @@
+{
+  "name": "utilitas-teks",
+  "version": "1.0.0",
+  "description": "Pustaka utilitas untuk menghitung huruf dan kata dalam sebuah string.",
+  "license": "ISC",
+  "author": "TP_10",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  }
+}
