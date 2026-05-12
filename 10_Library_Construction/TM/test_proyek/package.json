@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "mtk-gampang": "file:../mtk_gampang"
+  }
+}

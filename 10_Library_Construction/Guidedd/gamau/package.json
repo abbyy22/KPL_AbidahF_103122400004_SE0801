@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "guidedd": "file:../ayo"
+  }
+}
