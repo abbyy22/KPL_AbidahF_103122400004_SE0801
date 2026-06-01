@@ -8,76 +8,64 @@ NIM : 103122400004
 
 **Soal**
 
-Bukalah repostori kode tugas besarmu dan carilah satu saja design pattern yang digunakan di dalamnya (boleh design pattern apa saja, akan direviu kasus-per-kasus). Sertakan kodenya di tugas ini dan coba jelaskan desainnya.
+Kode ini tampak baik dan bagus, tetapi menyalahi beberapa prinsip kode bersih. Bisakah kamu melakukan refaktorisasi? Dimodifikasi dari amrrwael/Delivery-website-Hits.
 
-**Kode sumber**
+Sebagai konteks, fungsi di bawah ini menampilkan rincian pesanan di modal dan jika klik konfirmasi, sistem apa menyimpannya.
 
-Tersedia di https://github.com/abbyy22/TUBES-KPL-TIM-GEHENDUL 
+function fetchOrderDetails(orderId, token) {
+    fetch(`https://example.com/api/order/${orderId}`, {
+        headers: {
+            'Authorization': token
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to fetch order details');
+        }
+        return response.json();
+    })
+    .then(order => {
+        // Display order info
+        const modal = document.getElementById('orderModal');
+        const detailsDiv = modal.querySelector('#orderDetails');
+        detailsDiv.innerHTML = '';
+
+        const header = document.createElement('h3');
+        header.textContent = `Order ID: ${order.id}`;
+        detailsDiv.appendChild(header);
+
+        const status = document.createElement('p');
+        status.textContent = `Status: ${order.status}`;
+        detailsDiv.appendChild(status);
+
+        // Show modal
+        modal.style.display = 'block';
+
+        // Setup close button
+        const closeBtn = modal.querySelector('.close');
+        closeBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // Setup confirm button
+        const confirmBtn = modal.querySelector('#confirmOrderBtn');
+        if (order.status === 'Delivered') {
+            confirmBtn.style.display = 'none';
+        } else {
+            confirmBtn.addEventListener('click', () => {
+                confirmOrder(order.id, token);
+            });
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
 
 **Penjelasan**
 
-Di repository ditemukan implementasi **State Machine** — pola desain yang tergolong dalam kategori *Behavioral Pattern*. Lokasinya ada di dua tempat sekaligus: `backend/src/utils/orderStateMachine.js` dan `frontend/src/js/siswa/orderStateMachine.js`.
+Pada proses refactoring, fungsi fetchOrderDetails yang sebelumnya menangani beberapa tugas sekaligus dipisahkan menjadi beberapa fungsi dengan tanggung jawab yang lebih spesifik. Pemisahan ini dilakukan agar kode lebih mudah dipahami, dikelola, dan dikembangkan di kemudian hari.
 
----
+Selain itu, penggunaan async/await menggantikan pola .then() yang bertingkat sehingga alur eksekusi program menjadi lebih jelas dan mudah dibaca. Teknik destructuring parameter juga diterapkan pada beberapa fungsi, seperti renderOrderDetails dan setupConfirmButton, untuk menyederhanakan akses terhadap data yang digunakan.
 
-### Apa itu State Machine?
-
-State Machine (Mesin Keadaan Terbatas) adalah pola di mana sebuah objek hanya bisa berada di **satu state pada satu waktu**, dan perpindahan antar state hanya diizinkan melalui **transisi yang telah didefinisikan secara eksplisit**. State yang tidak terdaftar sebagai transisi yang valid akan ditolak.
-
----
-
-### Kode Backend (`orderStateMachine.js`)
-
-```javascript
-const STATES = Object.freeze({
-  ORDERED: 'ORDERED',
-  COOKING: 'COOKING',
-  READY:   'READY',
-  DONE:    'DONE',
-});
-
-const TRANSITIONS = Object.freeze({
-  ORDERED: ['COOKING'],
-  COOKING: ['READY'],
-  READY:   ['DONE'],
-  DONE:    [],           // state final, tidak ada transisi keluar
-});
-
-function canTransition(from, to) {
-  if (!isValidState(from) || !isValidState(to)) return false;
-  return TRANSITIONS[from].includes(to);
-}
-```
-
-Tabel `TRANSITIONS` adalah jantung dari pola ini — ia mendefinisikan graf berarah yang hanya mengizinkan alur `ORDERED → COOKING → READY → DONE`. Tidak bisa loncat, tidak bisa mundur.
-
----
-
-### Penggunaan di Controller (`orderController.js`)
-
-```javascript
-// Saat pesanan dibuat, status awal selalu ORDERED
-await conn.query(
-  `INSERT INTO orders (..., status) VALUES (?, ?, ?, ?, ?)`,
-  [..., STATES.ORDERED],
-);
-
-// Saat admin update status, transisi divalidasi dulu
-if (!canTransition(current, status)) {
-  throw ApiError.badRequest(
-    `Transisi tidak valid: ${current} -> ${status}. Allowed: ${nextStates(current).join(', ')}`
-  );
-}
-```
-
-State machine tidak hanya ada di utility file, tapi benar-benar **ditegakkan** di lapisan API sebelum setiap `UPDATE` ke database.
-
----
-
-### Kenapa ini desain yang baik?
-
-**Tanpa** state machine, kode validasi status bisa tersebar di mana-mana — misalnya `if (status !== 'ORDERED' && status !== 'COOKING') throw error` yang mudah tidak konsisten antar endpoint.
-
-**Dengan** state machine, aturan transisi **tersentralisasi** di satu tempat. Kalau ada aturan baru (misalnya status `CANCELLED`), cukup tambahkan di `TRANSITIONS` — semua controller otomatis mengikutinya.
-
-Nilai tambah lain: error message yang dihasilkan informatif (`Transisi tidak valid: COOKING -> ORDERED. Allowed: READY`), sehingga memudahkan debugging baik dari sisi developer maupun pengguna API.
+Komentar-komentar yang sifatnya menjelaskan hal yang sudah jelas dari nama fungsi dihilangkan guna menjaga kebersihan kode. Di sisi lain, penggunaan nama variabel yang lebih deskriptif, seperti isDelivered, membuat tujuan dan logika program lebih mudah dipahami tanpa perlu melihat detail kondisi yang digunakan.
